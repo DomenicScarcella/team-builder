@@ -1,9 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Form from './Form';
 import Member from './Member';
-import axios from 'react';
 
 const iniFormValues = {
   name: '',
@@ -27,22 +26,10 @@ export default function App() {
       email: formValues.email.trim(),
       role: formValues.role,
     }
-    if (!newMember.username || !newMember.email || !newMember.role) {
-      return;
-    }
-    axios.post('fakeapi.com', newMember)
-      .then(res => {
-       setMembers([...members, res.data])
-       setFormValues(iniFormValues)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    setMembers(members.concat(newMember))
+    setFormValues(iniFormValues)
+    
   }
-  useEffect(() => {
-    axios.get('fakeapi.com').then(res => setMembers(res.data))
-  }, [])
-
   return (
     <div className="App">
       <h1>Members List</h1>
